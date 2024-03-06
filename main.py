@@ -11,26 +11,16 @@ def lerp(p0: float, p1: float, t: float) -> float:
     return (1 - t) * p0 + t * p1
 
 def curve(vector1, vector2):
-    lerpA = list()
-    lerpB = list()
     lerpPonto = list()
     for i in range(0, 11, 1):
-        lerpA.append(lerp(vector1[0][0], vector1[0][1], i/10))
-        lerpA.append(lerp(vector1[1][0], vector1[1][1], i/10))
+        lerpA1 = lerp(vector1[0][0], vector1[1][0], i/10)
+        lerpA2 = lerp(vector1[0][1], vector1[1][1], i/10)
 
-        lerpB.append(lerp(vector2[0][0], vector2[0][1], i/10))
-        lerpB.append(lerp(vector2[1][0], vector2[1][1], i/10))
+        lerpB1 = lerp(vector2[0][0], vector2[1][0], i/10)
+        lerpB2 = lerp(vector2[0][1], vector2[1][1], i/10)
 
-
-
-        lerpPonto.append([lerp(lerpA[0], lerpA[1], i / 10)])
-        lerpPonto.append([lerp(lerpB[0], lerpB[1], i / 10)])
-
-        lerpA.clear()
-        lerpB.clear()
-
-
-
+        lerpPonto.append([lerp(lerpA1, lerpA2, i/10)])
+        lerpPonto[i].append(lerp(lerpB1, lerpB2, i/10))
 
     return lerpPonto
 
@@ -49,14 +39,15 @@ lerps2 = list()
 lerpA = list()
 lerpB = list()
 
-print(curve([x_first_line, y_first_line], [x_second_line, y_second_line]))
+lerps = (curve([x_first_line,y_first_line],[x_second_line,y_second_line]))
 
+print(lerps)
 
 lerpA.append(lerp(x_first_line[0],x_first_line[1],0))
 lerpA.append(lerp(y_first_line[0],y_first_line[1],0))
 
-lerpB.append(lerp(x_second_line[0],x_second_line[1],0))
-lerpB.append(lerp(y_second_line[0],y_second_line[1],0))
+lerpB.append(lerp(x_second_line[0],x_second_line[1],1))
+lerpB.append(lerp(y_second_line[0],y_second_line[1],1))
 
 print(lerpA[0], " " ,lerpA[1])
 
@@ -85,7 +76,8 @@ x = [4]
 y = [3]
 
 plt.grid()
-plt.plot(lerpA[0], lerpA[1], marker="o", markersize=10, markeredgecolor="red", markerfacecolor="green")
+for i in range(0, len(lerps)):
+    plt.plot(lerps[i][0], lerps[i][1], marker="o", markersize=10, markeredgecolor="red", markerfacecolor="green")
 plt.plot(lerpB[0], lerpB[1], marker="o", markersize=10, markeredgecolor="red", markerfacecolor="green")
 plt.show()
 
